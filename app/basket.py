@@ -8,12 +8,26 @@ class Basket(object):
     """ class Basket used for dealing with basket items such as delegating transactions and specials/discounts"""
 
     def __init__(self, basket_item_codes):
+        """
+        initialize the Basket object with a list of product item codes
+
+        :param basket_item_codes: list of str that represent product item codes
+        
+        """
+
         self.basket_item_codes = basket_item_codes
 
         self.running_total = 0.0
         self.processed_basket_list = []
 
     def calc_basket_total_price(self):
+        """
+        driver for Basket operations performed for each item within it
+        
+        :return: list of dict objs that contain processed product data including
+                 the total price of the current basket (last element)
+        """
+
         product_occurrences = self.calc_item_occurrences()
         item_objs = self.get_item_objs_by_code()
 
@@ -36,6 +50,12 @@ class Basket(object):
         return set(self.basket_item_codes)
 
     def get_item_objs_by_code(self):
+        """
+        get the Product data models represented in the current basket instance
+
+        :return: dict obj representing the Product(s) data model
+        """
+
         item_data_dict = ProductModel.find_by_product_codes(self.calc_unique_item_types_in_basket())
 
         return {row['product_code']: row for row in item_data_dict}
@@ -43,13 +63,23 @@ class Basket(object):
     def calc_item_occurrences(self):
         return Counter(self.basket_item_codes)
 
-    def calc_basket_items(self, reg_transaction_items, special_transaction_items=None, specials_data_list=None):
+    def calc_basket_items(self, reg_transaction_items, special_transaction_item=None, specials_data_list=None):
+        """
+        process batch of similar product items and calculate discount(s), if any 
+
+        :param reg_transaction_items: list of product obj items that will be processed without any specials applied
+        :param special_transaction_item: (Default: None) Product obj item that will have discount(s)/special applied to it
+        :param specials_data_list: (Default: None) list of special discount objs to apply to product items
+        
+        :return: None
+        """
+
         for item in reg_transaction_items:
             self.processed_basket_list.append({'product_code': item['product_code'],
                                                'product_price':item['product_price']})
 
-        if special_transaction_items and specials_data_list:
-            transaction_obj = Transactions(special_transaction_items, 
+        if special_transaction_item and specials_data_list:
+            transaction_obj = Transactions(special_transaction_item, 
                                                 specials_data_list)
 
             for item in transaction_obj.calc_multi_special():
@@ -60,10 +90,10 @@ class Basket(object):
         Examines items(products) in basket, then depending on criterias set
         will pass objects to the Transactions and calculate discount price(s)
 
-        :param product_occurences:
-        :param product_objects:
+        :param product_occurences: dict type obj that hold the count of each item by product code
+        :param product_objects: dict type obj that represent the current basket item(s) from the Product data model
 
-        return None
+        :return: None
         """
         
         discount_data_dict = {}
