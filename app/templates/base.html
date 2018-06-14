@@ -1,0 +1,23 @@
+<!doctype html>
+
+<title>{% block title %}{% endblock %} - app</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Market</h1>
+  <ul>
+    <li><a class="action" href="{{ url_for('market.index') }}">see products</a></li>
+    <li><a class="action" href="{{ url_for('market.specials') }}">see specials</a></li>
+    <li><a class="action" 
+       href="{{ url_for('market.show_cart') }}">Show cart ({{ cart_list|count|default(0) }})
+    </a></li>
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

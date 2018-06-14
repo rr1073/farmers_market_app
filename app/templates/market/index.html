@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="main-header">
+    {% block title %}
+      Market Products 
+    {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block content %}
+  {% for item in items %}
+    <article class="mark">
+        <header>
+            <div>
+                <h1>{{ item['product_name'] }}</h1>
+                <div class="about">product code: <b>{{ item['product_code'] }} </b> 
+                    priced at <b>${{ item['product_price']}}</b></div> {# and {{ cart_list }} #}
+            </div>
+            <a class="action" href="{{ url_for('market.add_to_cart', 
+                                      product_code=item['product_code']) }}">Add to cart</a>
+        </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  <hr>
+  <a class="action" 
+    href="{{ url_for('market.show_cart') }}">Show cart ({{ cart_list|count|default(0) }})
+  </a>
+{% endblock %}

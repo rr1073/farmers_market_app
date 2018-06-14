@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="main-header">
+    {% block title %}
+      Market Cart
+    {% endblock %}
+  </h1>
+{% endblock %}
+
+{% block content %}
+  {% for item in product_data %}
+    <article class="mark">
+        <header>
+            <div>
+                {% if loop.last %}
+                  <div><h1>Total Price</h1></div>
+                {% else %}
+                  <h1>{{ item['product_code'] }}</h1>
+                {% endif %}
+            </div>
+            <div class="action about">
+                <b>{{ item['product_price'] }}</b>
+            </div>
+        </header>
+    </article>
+    {% if not loop.last %}
+      <hr>
+      {% if item['specials'] %}
+        {% for special in item['specials'] %}
+          <article class="mark">
+            <header>
+              <div><div class="about" style="text-align: center">{{ special['special_code'] }}</div></div>
+              <a> - {{ special['special_discount'] }}</a>
+            </header>
+          </article>
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      <hr>
+      <article class="mark">
+        <header>
+          <a class="action" href="{{ url_for('market.empty_cart') }}">Empty Cart</a>
+        </header>
+      </article>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
