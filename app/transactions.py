@@ -2,16 +2,29 @@
 from app.models.special import SpecialModel
 
 class Transactions(object):
-    """ handles all manner of special transactions in Basket items """
+    """ Handles all manner of special transactions in Basket items and/or helper method(s) """
 
     def __init__(self, basket_item, specials_data_list):
-        """ initialize """
+        """ 
+        initialize basket item/product and any specials to apply to it
+
+        :param basket_item: a dict obj respresenting a Product 
+        :param specials_data_list: a list of Specials objs to apply discount(s)
+
+        """
+
         self.basket_item = basket_item
         self.specials_data_list = specials_data_list
 
         self.processed_basket_item_list = []
 
     def calc_multi_special(self):
+        """
+        drives the applied discount(s) to the Product item and calculates the discount from base price
+        generates the data back to the caller
+
+        """
+
         for special_type in self.specials_data_list:
             for num in range(special_type.get('num_to_apply', 0)):
                 discounted_amount = self.basket_item['product_price'] - (self.basket_item['product_price'] *
@@ -31,6 +44,8 @@ class Transactions(object):
 
     @staticmethod
     def ap1_special_rule(num_of_ap1_items, ap1_obj):
+        """ helper method to determine how many special discounts to apply, if any """
+
         discount_data_dict = {}
         product_list = []
 
