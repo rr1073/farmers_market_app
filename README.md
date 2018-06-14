@@ -52,8 +52,8 @@ to find the "NAMES" value run the following command and look for the "farmers_ma
 ```bash
 $ docker ps
 
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
-d93f89856c81        farmers_market      "/bin/sh -c 'gunicor…"   8 seconds ago       Up 7 seconds        0.0.0.0:8000->8000/tcp   elegant_fermi
+IMAGE                    NAMES
+farmers_market           elegant_fermi
 ```
 
 to stop the application run the following command
