@@ -1,31 +1,28 @@
 # Farmer's Market
 
-A modified checkout system used to determine special prices on several items for sale.
+An extensible implementation of a checkout system that applies user defined discounts representing a Farmer's Market style business
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (verified on linux env). 
-
-
 ### Prerequisites
 
-You will need the following to be able to run the application
+You will need the following to run the application
 
 ```
-Docker
+Docker version 18.03.1-ce
 ```
 
 ### Installing
 
-1. clone repository
+1. Clone this repository
 ```bash
 $ git clone https://github.com/rr1073/farmers_market_app.git
 ```
-2. in master branch, run the following command in the root directory to build the docker image:
+2. Run the following command in the project's root directory to build the docker image:
 ```bash
 $ docker build --tag farmers_market .
 ```
-3. once built, execute this command to run the docker container
+3. Once built, execute this command to run the docker container as a daemon. </br></br>*Note:* Consider any other running docker services and ensure that port 8000 is available</br>
 ```bash
 $ docker run --rm -p 8000:8000 -d farmers_market
 ```
@@ -33,6 +30,7 @@ $ docker run --rm -p 8000:8000 -d farmers_market
 ```
 http://localhost:8000/
 ```
+5. The user interface allows customers to add items to their cart.  Discounts will be applied when the item is added.
 
 ## Running the tests
 
@@ -40,15 +38,14 @@ You can run automated pytests that will test different product price outcomes
 
 ### Run all tests
 
-run test suite with the following command
-
 ```bash
-$ docker exec -it <NAMES> pytest -v
+$ docker exec -it <CONTAINER_NAME> pytest -v
 ```
+
 
 ## Helpful tips and commands
 
-to find the "NAMES" value run the following command and look for the "farmers_market" IMAGE
+To find the "CONTAINER_NAME" value run the following command and look for the "farmers_market" IMAGE
 ```bash
 $ docker ps
 
@@ -57,12 +54,11 @@ farmers_market           elegant_fermi
 ```
 
 to stop the application run the following command
-```bash
-$ docker stop <NAMES>
+```bashInstalling
+$ docker stop <CONTAINER_NAME>
 ```
 
 to remove the app image
 ```bash
 $ docker rmi -f farmers_market
 ```
-

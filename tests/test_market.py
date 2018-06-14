@@ -23,6 +23,8 @@ def test_market(client):
     assert b"Show cart" in response.data
 
 def test_1(client):
+    # Testing: CH1, AP1, AP1, AP1, MK1
+    # Total price expected: $16.61
     client.get('/market/add-to-cart/CH1')
     client.get('/market/add-to-cart/AP1')
     client.get('/market/add-to-cart/AP1')
@@ -36,6 +38,7 @@ def test_1(client):
 
 def test_2(client):
     # Testing: CH1, AP1, CF1, MK1
+    # Total price expected: $20.34
     client.get('/market/add-to-cart/CH1')
     client.get('/market/add-to-cart/AP1')
     client.get('/market/add-to-cart/CF1')
